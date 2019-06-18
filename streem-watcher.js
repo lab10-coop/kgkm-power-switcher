@@ -1,4 +1,4 @@
-function StreemWatcher(contract, eventNames, receiver) {
+function StreemWatcher(contract, eventNames, receiver, web3) {
   this.streems = [];
   this.numberOpenStreems = 0;
   this.onStreemsStarted = () => {};
@@ -10,6 +10,7 @@ function StreemWatcher(contract, eventNames, receiver) {
     streemClosed: 'close',
   };
   this.receiver = receiver;
+  this.web3 = web3;
 }
 
 StreemWatcher.prototype.start = async function () {
@@ -23,6 +24,15 @@ StreemWatcher.prototype.start = async function () {
   openEvents.forEach(event => this.handleOpenEvent(event));
   closeEvents.forEach(event => this.handleCloseEvent(event));
   this.calcNumberOpenStreems();
+
+  //logging added for detecting if the raspberry looses the connection over time. 
+
+  this.web3.eth.subscribe('newBlockHeaders').on('data', (blockHeader) => {
+    console.log('block', blockHeader.number);
+  }).on('error', (error) => {
+    console.error('block error', error);
+  });
+    
 
   return this.contract.events.allEvents({}, (error, event) => {
     if (error) {

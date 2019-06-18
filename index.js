@@ -8,7 +8,7 @@ const { StreemWatcher } = require('./streem-watcher');
 const streemAdapterAbi = JSON.parse(fs.readFileSync(config.contract.abiPath, 'utf8'));
 const web3 = new Web3(config.network.rpcUrl);
 const contract = new web3.eth.Contract(streemAdapterAbi, config.contract.address);
-const sw = new StreemWatcher(contract, config.eventNames, config.receiver);
+const sw = new StreemWatcher(contract, config.eventNames, config.receiver, web3);
 
 powerSwitcher.powerOff(config.powerPort);
 sw.start();
