@@ -14,11 +14,13 @@ function StreemWatcher(contract, eventNames, receiver, web3) {
 }
 
 StreemWatcher.prototype.start = async function () {
+  // ignore open streems which were opened more than 5 blocks ago
+  const blockNr = await web3.eth.getBlockNumber();
   const openEvents = await this.contract.getPastEvents(
-    this.eventNames.streemOpened, { fromBlock: 0 },
+    this.eventNames.streemOpened, { fromBlock: blockNr - 5 },
   );
   const closeEvents = await this.contract.getPastEvents(
-    this.eventNames.streemClosed, { fromBlock: 0 },
+    this.eventNames.streemClosed, { fromBlock: blockNr - 5 },
   );
 
   openEvents.forEach(event => this.handleOpenEvent(event));
