@@ -9,7 +9,7 @@ https://www.youtube.com/watch?v=vT8lANjT620
 See also the related project: https://github.com/lab10-coop/kgkm-nfc
 
 The project is a node-js server that starts and stops the delievery of power based on the events of a streemable token (see also [streem-poc](https://github.com/lab10-coop/streem-poc)
-Power will be delivered if there is at leased one paying for the Power stream.
+Power will be delivered if there is at least one account paying for the Power stream.
 
 
 ## Requirements
